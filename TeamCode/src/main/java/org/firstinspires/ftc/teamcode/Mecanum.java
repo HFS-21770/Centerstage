@@ -34,8 +34,8 @@ public class Mecanum extends OpMode {
         ServoController = hardwareMap.get(ServoController.class, "Control Hub");
 
         // Get Arm Motors
-//        arm1 = hardwareMap.get(DcMotor.class, "arm1");
-//        arm2 = hardwareMap.get(DcMotor.class, "arm2");
+        arm1 = hardwareMap.get(DcMotor.class, "arm1");
+        arm2 = hardwareMap.get(DcMotor.class, "arm2");
 
         // Get servos
         claw1 = hardwareMap.get(Servo.class, "claw1");
@@ -102,9 +102,7 @@ public class Mecanum extends OpMode {
         // syntax: condition ? true value/code : false value/code;
         // better: (condition) ? true value/code : false value/code;
         // Should only be used for small things
-        double power = (0 > arm) ? /* if */ 0.5 * arm
-                : /* else */ (0 < arm) ? /* if */ 0.5 * arm
-                : /* else */ 0;
+        double power = (0 > arm) ? 0.5 * arm : (0 < arm) ?  0.5 * arm : 0;
 
         motorPower(forward, strafe, turn);
 
@@ -113,22 +111,25 @@ public class Mecanum extends OpMode {
         arm2.setPower(power);
 
         // Control Claws
-        if (gamepad2.left_trigger != claw1.getPosition())
+        if (gamepad2.left_trigger != claw1.getPosition()) {
             claw1.setPosition(gamepad2.left_trigger / 2);
+        }
 
-        if (gamepad2.right_trigger != claw2.getPosition())
+        if (gamepad2.right_trigger != claw2.getPosition()) {
             claw2.setPosition(gamepad2.right_trigger / 2);
-
+        }
         // Claw Angle
         if (gamepad2.dpad_down) {
             angle.setPosition(angle.getPosition() + 0.1);
-        } else if (gamepad2.dpad_up) {
+        } 
+        else if (gamepad2.dpad_up) {
             angle.setPosition(angle.getPosition() - 0.1);
         }
 
         // Launch plane
-        if (gamepad1.x)
+        if (gamepad1.x){
             plane.setPosition(0);
+        }
     }
 
     @Override
@@ -140,10 +141,7 @@ public class Mecanum extends OpMode {
     // Utility functions
     public void motorPower(final double forward, final double strafe, final double turn) {
         // Denominator is the largest motor power;
-        double denominator =
-                JavaUtil.maxOfList(
-                        JavaUtil.createListWith(Math.abs(forward) + Math.abs(turn) + Math.abs(strafe), 1)
-                );
+        double denominator =JavaUtil.maxOfList(JavaUtil.createListWith(Math.abs(forward) + Math.abs(turn) + Math.abs(strafe), 1));
 
         // change motor speeds for wheels;
         frontLeft0.setPower((forward + turn + strafe) / denominator);
