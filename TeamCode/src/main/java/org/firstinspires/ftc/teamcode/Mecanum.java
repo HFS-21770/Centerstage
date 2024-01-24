@@ -66,7 +66,7 @@ public class Mecanum extends OpMode {
         // Configure Max Angles for the servos that need it;
         claw1.scaleRange(0, 0.5);
         claw2.scaleRange(0, 0.5);
-        // angle.scaleRange(0, 0.5);
+        angle.scaleRange(0, 1);
 
         // Configure DcMotor Directions correctly;
         // Wheels;
