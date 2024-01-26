@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 
@@ -78,6 +77,7 @@ public class Mecanum extends OpMode {
         // configure Arm brakes; to counteract Arm not being able to hold itself;
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm2.setDirection(DcMotor.Direction.REVERSE);
 
         // Update on Driver Hub that Initialization finished;
         telemetry.addData("Initialized", "Finished with no errors");
@@ -136,6 +136,7 @@ public class Mecanum extends OpMode {
     public void stop() {
         // Prepare Plane servo for reloading;
         plane.setPosition(1);
+        super.stop();
     }
 
     // Utility functions
