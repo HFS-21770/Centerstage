@@ -136,7 +136,6 @@ public class Mecanum extends OpMode {
     public void stop() {
         // Prepare Plane servo for reloading;
         plane.setPosition(1);
-        super.stop();
     }
 
     // Utility functions
