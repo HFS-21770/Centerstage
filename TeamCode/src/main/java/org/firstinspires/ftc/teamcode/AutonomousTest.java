@@ -2,30 +2,24 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Autonomous(name = "AutonomousTest")
+// @Disabled // - Disable When Not Needed
 public class AutonomousTest extends OpMode {
 
     private DistanceSensor distanceSensor;
     private NormalizedColorSensor colorSensor;
-    private HardwareMap hwMap;
     @Override
     public void init() {
-        hwMap = hardwareMap;
-        distanceSensor = hwMap.get(DistanceSensor.class, "distanceSensor");
-        colorSensor = hwMap.get(NormalizedColorSensor.class, "colorSensor");
+        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
+        colorSensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
     }
 
     @Override
