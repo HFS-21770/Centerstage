@@ -23,7 +23,7 @@ public class AutonomousTest extends OpMode {
     public void init() {
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
         colorSensor = hardwareMap.get(NormalizedColorSensor.class, "colorSensor");
-        touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");
+        touchSensor = hardwareMap.get(TouchSensor.class, "touchSensor");  
     }
 
     @Override
@@ -39,11 +39,11 @@ public class AutonomousTest extends OpMode {
         touchSensorState = touchSensor.isPressed();
         if(touchSensorState)
         {
-            telemetry.addData("Touch Sensor: Is pressed")
+            telemetry.addData("Touch Sensor:", "Is pressed");
         }
         else
         {
-            telemetry.addData("Touch Sensor: Is NOT pressed")
+            telemetry.addData("Touch Sensor:", "Is NOT pressed");
         }
     }
 }
