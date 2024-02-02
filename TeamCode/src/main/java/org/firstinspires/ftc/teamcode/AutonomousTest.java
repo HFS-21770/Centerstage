@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 @Autonomous(name = "AutonomousTest")
-@Disabled // - Disable When Not Needed
+// @Disabled // - Disable When Not Needed
 public class AutonomousTest extends OpMode {
 
     private DistanceSensor distanceSensor;      // The Actual distance sensor
@@ -46,6 +46,7 @@ public class AutonomousTest extends OpMode {
     
             telemetry.addData("Touch Sensor", touchSensor.isPressed() ? "Is pressed" : "Is NOT pressed");
         
+        //TESTING
         int amount = 0;
         while(amount <= i) {
             armAngle.setPower(1);
