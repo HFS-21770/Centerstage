@@ -47,9 +47,9 @@ public class AutonomousTest extends OpMode {
             telemetry.addData("Touch Sensor", touchSensor.isPressed() ? "Is pressed" : "Is NOT pressed");
         
         int amount = 0;
-        while(amount <= i)
-        {
+        while(amount <= i) {
             armAngle.setPower(1);
             amount++;
         }
+    }
 }
