@@ -23,6 +23,7 @@ public class Mecanum extends OpMode {
     private DcMotor frontRight3;
     private DcMotor backLeft1;
     private DcMotor backRight2;
+    private DcMotor suspension;
 
     private boolean angleChange;
 
@@ -35,6 +36,9 @@ public class Mecanum extends OpMode {
         // Get Arm Motors
         arm1 = hardwareMap.get(DcMotor.class, "arm1");
         arm2 = hardwareMap.get(DcMotor.class, "arm2");
+
+        // Get Suspension Motor
+        suspension = hardwareMap.get(DcMotor.class, "suspension");
 
         // Get servos
         claw1 = hardwareMap.get(Servo.class, "claw1");
@@ -115,9 +119,6 @@ public class Mecanum extends OpMode {
             claw1.setPosition(gamepad2.left_trigger / 2);
         }
 
-        if (gamepad2.right_trigger != claw2.getPosition()) {
-            claw2.setPosition(gamepad2.right_trigger / 2);
-        }
         // Claw Angle
         if (gamepad2.dpad_down) {
             angle.setPosition(angle.getPosition() + 0.1);
@@ -126,8 +127,16 @@ public class Mecanum extends OpMode {
             angle.setPosition(angle.getPosition() - 0.1);
         }
 
+        if (gamepad1.b) {
+            suspension.setPower(0.5);
+            for (int i = 0; i < 435; i++) {
+                telemetry.addData("Iterations", String.valueOf(i));
+            }
+            suspension.setPower(0);
+        }
+
         // Launch plane
-        if (gamepad1.x){
+        if (gamepad1.x) {
             plane.setPosition(0);
         }
     }
