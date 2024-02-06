@@ -10,13 +10,13 @@ import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
+import com.sun.tools.javac.util.Convert;
+
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
-@Autonomous(name = "AutonomousTest")
-// @Disabled // - Disable When Not Needed
-public class AutonomousTest extends OpMode {
-
+@Autonomous(name = "Auto test 4.2.24")
+public class autoTest extends OpMode{
     private DistanceSensor distanceSensor;      // The Actual distance sensor
     private DistanceSensor distanceSensorB;
     private NormalizedColorSensor colorSensor;  // The Actual color sensor
@@ -94,20 +94,15 @@ public class AutonomousTest extends OpMode {
                     timer.reset();
                     timerStarted = false;
                 }
-                while(timer.seconds() < 0.68)
+                if(timer.seconds() < 2)
                 {
                     frontLeft0.setPower(0.5);
                     backRight2.setPower(0.5);
                     frontRight3.setPower(0.5);
                     backLeft1.setPower(0.5);
                 }
-
-
-//                    frontLeft0.setPower(0);
-//                    backRight2.setPower(0);
-//                    frontRight3.setPower(0);
-//                    backLeft1.setPower(0);
                 curState = State.SEARCH;
+                telemetry.addData("curState:",curState);
                 break;
 
 
@@ -124,10 +119,14 @@ public class AutonomousTest extends OpMode {
                 {
                     SearchAction(State.DONTTURN, 3);
                 }
+                else
+                {
+                    telemetry.addData("State","ERROR!!!!!");
+                }
                 break;
 
             case TURNLEFT:
-                while(timer.seconds() < 0.5)
+                if(timer.seconds() < 0.5)
                 {
                     frontLeft0.setPower(0.5);
                     backRight2.setPower(-0.5);
@@ -146,9 +145,9 @@ public class AutonomousTest extends OpMode {
                 }
                 else{
                     curState = State.PUT;
-                    break;
-                }
 
+                }
+                break;
             case DONTTURN:
                 if(timer.seconds() < 0.5){
                     frontLeft0.setPower(0.5);
@@ -158,8 +157,8 @@ public class AutonomousTest extends OpMode {
                 }
                 else {
                     curState = State.PUT;
-                    break;
                 }
+                break;
             case PUT:
                 frontLeft0.setPower(0);
                 backRight2.setPower(0);
