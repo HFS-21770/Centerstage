@@ -15,10 +15,10 @@ import com.sun.tools.javac.util.Convert;
 
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-@Autonomous(name = "Auto test 4.2.24")
-public class autoTest extends OpMode{
-    private DistanceSensor distanceSensor;      // The Actual distance sensor on the ____
-    private DistanceSensor distanceSensorB;     // The Actual distance sensor on the ____
+@Autonomous(name = "AutonomousTest")
+public class AutonomousTest extends OpMode {
+    private DistanceSensor distanceSensor;      // The Actual distance sensor on the Right Side
+    private DistanceSensor distanceSensorB;     // The Actual distance sensor on the Left Side
 
     private DcMotor frontLeft0;
     private DcMotor frontRight3;
@@ -31,7 +31,7 @@ public class autoTest extends OpMode{
     private ElapsedTime timer = new ElapsedTime();
 
     @Override
-    public void init() 
+    public void init()
     {
         distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
         distanceSensorB = hardwareMap.get(DistanceSensor.class, "distanceSensorB");
@@ -71,7 +71,7 @@ public class autoTest extends OpMode{
                     timer.reset();
                     timerStarted = false;
                 }
-                if(timer.seconds() < 0.94)
+                if(timer.seconds() < 1.18)
                 {
                     frontLeft0.setPower(0.5);
                     backRight2.setPower(0.5);
@@ -81,15 +81,21 @@ public class autoTest extends OpMode{
                 else
                 {
                     // 0.94 seconds passed - move to next state
+                    frontLeft0.setPower(0);
+                    backRight2.setPower(0);
+                    frontRight3.setPower(0);
+                    backLeft1.setPower(0);
                     curState = State.SEARCH;
                 }
                 telemetry.addData("curState:",curState);
-                
+
                 break;
 
             case SEARCH:
+
                 telemetry.addData("Searching","...");
-                if(distanceSensor.getDistance(DistanceUnit.MM) < 300)
+
+                if (distanceSensor.getDistance(DistanceUnit.MM) < 300)
                 {
                     telemetry.addData("Found it on", " Right side"); // NEEDS TO BE CHANGED DEPENDING ON THE SIDES!!!
                     SearchAction(State.TURNLEFT, 3); // the timer resets here
@@ -107,46 +113,59 @@ public class autoTest extends OpMode{
                 break;
 
             case TURNLEFT:
-                if(timer.seconds() < 0.5)
+                if(timer.seconds() < 0.53)
                 {
                     frontLeft0.setPower(0.5);
                     backRight2.setPower(-0.5);
                     frontRight3.setPower(-0.5);
                     backLeft1.setPower(0.5);
                 }
+                else if(timer.seconds() < 0.55)
+                {
+                    frontLeft0.setPower(0.5);
+                    backRight2.setPower(0.5);
+                    frontRight3.setPower(0.5);
+                    backLeft1.setPower(0.5);
+                }
                 else
                 {
-                    telemetry.addData("Turned Left", "Stoping robot")
-                    curState = State.PUT; 
+                    telemetry.addData("Turned Left", "Stopping robot");
+                    curState = State.PUT;
                 }
                 break;
 
             case TURNRIGHT:
-                if(timer.seconds() < 0.5)
+                if(timer.seconds() < 0.53)
                 {
                     frontLeft0.setPower(-0.5);
                     backRight2.setPower(0.5);
                     frontRight3.setPower(0.5);
                     backLeft1.setPower(-0.5);
                 }
+                else if (timer.seconds() < 0.55)
+                {
+                    frontLeft0.setPower(0.5);
+                    backRight2.setPower(0.5);
+                    frontRight3.setPower(0.5);
+                    backLeft1.setPower(0.5);
+                }
                 else
                 {
-                    telemetry.addData("Turned Right", "Stoping robot")
+                    telemetry.addData("Turned Right", "Stopping robot");
                     curState = State.PUT;
-
                 }
                 break;
             case DONTTURN:
-                if(timer.seconds() < 0.5)
+                if(timer.seconds() < 0.3)
                 {
                     frontLeft0.setPower(-0.5);
                     backRight2.setPower(-0.5);
                     frontRight3.setPower(-0.5);
                     backLeft1.setPower(-0.5);
                 }
-                else 
+                else
                 {
-                    telemetry.addData("Moved Backwords", "Stoping robot");
+                    telemetry.addData("Moved Backwards", "Stopping robot");
                     curState = State.PUT;
                 }
                 break;
@@ -157,17 +176,14 @@ public class autoTest extends OpMode{
                 backLeft1.setPower(0);
                 break;
 
-            default
-            {
-                telemetry.addData("State not valid, somthing went wrong", String.valueOf(curState));
-            }
+            default:
+                telemetry.addData("State not valid, something went wrong", String.valueOf(curState));
         }
-        
     }
-    public enum State {
+    public enum State
+    {
         DRIVE, SEARCH, TURNLEFT,TURNRIGHT,DONTTURN, PUT
     }
-
     public void SearchAction(State state, int value) {
         telemetry.addData("Found In:", String.valueOf(value));
         curState = state;
