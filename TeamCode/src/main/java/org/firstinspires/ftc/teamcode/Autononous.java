@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import java.util.concurrent.TimeUnit;
 
-@Autonomous(name = "Autonomous", preselectTeleOp = "Mecanum")
+@Autonomous(name = "Autonomous", preselectTeleOp = "Manual")
 public class Autononous extends OpMode {
     @Override
     public void init() {
