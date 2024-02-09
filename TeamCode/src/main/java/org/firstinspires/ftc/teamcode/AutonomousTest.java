@@ -68,23 +68,22 @@ public class AutonomousTest extends OpMode {
             case DRIVE:
                 if(timerStarted)
                 {
+
+                    // resetting the timer
                     timer.reset();
                     timerStarted = false;
                 }
-                if(timer.seconds() < 1.18)
+                if(timer.seconds() < 1.15)
                 {
-                    frontLeft0.setPower(0.5);
-                    backRight2.setPower(0.5);
-                    frontRight3.setPower(0.5);
-                    backLeft1.setPower(0.5);
+                    frontLeft0.setPower(0.4);
+                    backRight2.setPower(0.4);
+                    frontRight3.setPower(0.4);
+                    backLeft1.setPower(0.4);
                 }
                 else
                 {
                     // 0.94 seconds passed - move to next state
-                    frontLeft0.setPower(0);
-                    backRight2.setPower(0);
-                    frontRight3.setPower(0);
-                    backLeft1.setPower(0);
+
                     curState = State.SEARCH;
                 }
                 telemetry.addData("curState:",curState);
@@ -92,7 +91,10 @@ public class AutonomousTest extends OpMode {
                 break;
 
             case SEARCH:
-
+                frontLeft0.setPower(0);
+                backRight2.setPower(0);
+                frontRight3.setPower(0);
+                backLeft1.setPower(0);
                 telemetry.addData("Searching","...");
 
                 if (distanceSensor.getDistance(DistanceUnit.MM) < 300)
@@ -113,14 +115,14 @@ public class AutonomousTest extends OpMode {
                 break;
 
             case TURNLEFT:
-                if(timer.seconds() < 0.53)
+                if(timer.seconds() < 0.57)
                 {
                     frontLeft0.setPower(0.5);
                     backRight2.setPower(-0.5);
                     frontRight3.setPower(-0.5);
                     backLeft1.setPower(0.5);
                 }
-                else if(timer.seconds() < 0.55)
+                else if(timer.seconds() < 0.65)
                 {
                     frontLeft0.setPower(0.5);
                     backRight2.setPower(0.5);
@@ -130,19 +132,20 @@ public class AutonomousTest extends OpMode {
                 else
                 {
                     telemetry.addData("Turned Left", "Stopping robot");
+                    timer.reset();
                     curState = State.PUT;
                 }
                 break;
 
             case TURNRIGHT:
-                if(timer.seconds() < 0.53)
+                if(timer.seconds() < 0.55)
                 {
                     frontLeft0.setPower(-0.5);
                     backRight2.setPower(0.5);
                     frontRight3.setPower(0.5);
                     backLeft1.setPower(-0.5);
                 }
-                else if (timer.seconds() < 0.55)
+                else if (timer.seconds() < 0.57)
                 {
                     frontLeft0.setPower(0.5);
                     backRight2.setPower(0.5);
@@ -156,7 +159,7 @@ public class AutonomousTest extends OpMode {
                 }
                 break;
             case DONTTURN:
-                if(timer.seconds() < 0.3)
+                if(timer.seconds() < 0.2)
                 {
                     frontLeft0.setPower(-0.5);
                     backRight2.setPower(-0.5);
@@ -170,6 +173,12 @@ public class AutonomousTest extends OpMode {
                 }
                 break;
             case PUT:
+                if(timer.seconds() < 0.1){
+                    frontLeft0.setPower(-0.5);
+                    backRight2.setPower(-0.5);
+                    frontRight3.setPower(-0.5);
+                    backLeft1.setPower(-0.5);
+                }
                 frontLeft0.setPower(0);
                 backRight2.setPower(0);
                 frontRight3.setPower(0);
@@ -178,7 +187,7 @@ public class AutonomousTest extends OpMode {
 
             default:
                 telemetry.addData("State not valid, something went wrong", String.valueOf(curState));
-        }
+        } 
     }
     public enum State
     {
