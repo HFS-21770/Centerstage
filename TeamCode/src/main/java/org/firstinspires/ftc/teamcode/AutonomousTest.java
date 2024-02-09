@@ -33,8 +33,8 @@ public class AutonomousTest extends OpMode {
     @Override
     public void init()
     {
-        distanceSensor = hardwareMap.get(DistanceSensor.class, "distanceSensor");
-        distanceSensorB = hardwareMap.get(DistanceSensor.class, "distanceSensorB");
+        distanceSensorRight = hardwareMap.get(DistanceSensor.class, "distanceSensorRight");
+        distanceSensorLeft = hardwareMap.get(DistanceSensor.class, "distanceSensorLeft");
 
         frontLeft0 = hardwareMap.get(DcMotor.class, "frontLeft0");
         frontRight3 = hardwareMap.get(DcMotor.class, "frontRight3");
@@ -57,9 +57,8 @@ public class AutonomousTest extends OpMode {
     @Override
     public void loop()
     {
-
-        telemetry.addData("Distance", String.format("%.2f", distanceSensor.getDistance(DistanceUnit.MM)));
-        telemetry.addData("Distance", String.format("%.2f", distanceSensorB.getDistance(DistanceUnit.MM)));
+telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDistance(DistanceUnit.MM)));
+        telemetry.addData("Distance", String.format("%.2f", distanceSensorLeft.getDistance(DistanceUnit.MM)));
 
         telemetry.addData("Timer2", timer.seconds());
 
@@ -68,22 +67,17 @@ public class AutonomousTest extends OpMode {
             case DRIVE:
                 if(timerStarted)
                 {
-
                     // resetting the timer
                     timer.reset();
                     timerStarted = false;
                 }
-                if(timer.seconds() < 1.15)
+                if(timer.seconds() < 1.2)
                 {
-                    frontLeft0.setPower(0.4);
-                    backRight2.setPower(0.4);
-                    frontRight3.setPower(0.4);
-                    backLeft1.setPower(0.4);
+                    MotorPower(0.4 ,0.4 ,0.4 ,0.4);
                 }
                 else
                 {
-                    // 0.94 seconds passed - move to next state
-
+                    // 0.94 seconds passed - move to next stat
                     curState = State.SEARCH;
                 }
                 telemetry.addData("curState:",curState);
@@ -91,18 +85,15 @@ public class AutonomousTest extends OpMode {
                 break;
 
             case SEARCH:
-                frontLeft0.setPower(0);
-                backRight2.setPower(0);
-                frontRight3.setPower(0);
-                backLeft1.setPower(0);
+                MotorPower(0,0,0,0);
                 telemetry.addData("Searching","...");
 
-                if (distanceSensor.getDistance(DistanceUnit.MM) < 300)
+                if (distanceSensorRight.getDistance(DistanceUnit.MM) < 300)
                 {
                     telemetry.addData("Found it on", " Right side"); // NEEDS TO BE CHANGED DEPENDING ON THE SIDES!!!
                     SearchAction(State.TURNLEFT, 3); // the timer resets here
                 }
-                else if (distanceSensorB.getDistance(DistanceUnit.MM) < 300)
+                else if (distanceSensorLeft.getDistance(DistanceUnit.MM) < 300)
                 {
                     telemetry.addData("Found it on", " Left side"); // NEEDS TO BE CHANGED DEPENDING ON THE SIDES!!!
                     SearchAction(State.TURNRIGHT, 9); // the timer resets here
@@ -115,19 +106,9 @@ public class AutonomousTest extends OpMode {
                 break;
 
             case TURNLEFT:
-                if(timer.seconds() < 0.57)
+                if(timer.seconds() < 0.6)
                 {
-                    frontLeft0.setPower(0.5);
-                    backRight2.setPower(-0.5);
-                    frontRight3.setPower(-0.5);
-                    backLeft1.setPower(0.5);
-                }
-                else if(timer.seconds() < 0.65)
-                {
-                    frontLeft0.setPower(0.5);
-                    backRight2.setPower(0.5);
-                    frontRight3.setPower(0.5);
-                    backLeft1.setPower(0.5);
+                    MotorPower(0.5,-0.5,-0.5,0.5);
                 }
                 else
                 {
@@ -138,51 +119,42 @@ public class AutonomousTest extends OpMode {
                 break;
 
             case TURNRIGHT:
-                if(timer.seconds() < 0.55)
+                if(timer.seconds() < 0.6)
                 {
-                    frontLeft0.setPower(-0.5);
-                    backRight2.setPower(0.5);
-                    frontRight3.setPower(0.5);
-                    backLeft1.setPower(-0.5);
-                }
-                else if (timer.seconds() < 0.57)
-                {
-                    frontLeft0.setPower(0.5);
-                    backRight2.setPower(0.5);
-                    frontRight3.setPower(0.5);
-                    backLeft1.setPower(0.5);
+                    MotorPower(-0.5,0.5,0.5,-0.5);
                 }
                 else
                 {
                     telemetry.addData("Turned Right", "Stopping robot");
+                    timer.reset();
                     curState = State.PUT;
                 }
                 break;
             case DONTTURN:
-                if(timer.seconds() < 0.2)
+                if(timer.seconds() < 0.5)
                 {
-                    frontLeft0.setPower(-0.5);
-                    backRight2.setPower(-0.5);
-                    frontRight3.setPower(-0.5);
-                    backLeft1.setPower(-0.5);
+                    MotorPower(0.5,0.5,0.5,0.5);
+                }
+                if(timer.seconds() < 0.9)
+                {
+                    MotorPower(-0.5,-0.5,-0.5,-0.5);
                 }
                 else
                 {
                     telemetry.addData("Moved Backwards", "Stopping robot");
+                    timer.reset();
                     curState = State.PUT;
                 }
                 break;
             case PUT:
-                if(timer.seconds() < 0.1){
-                    frontLeft0.setPower(-0.5);
-                    backRight2.setPower(-0.5);
-                    frontRight3.setPower(-0.5);
-                    backLeft1.setPower(-0.5);
+                if(timer.seconds() < 0.1)
+                {
+                    MotorPower(0.5,0.5,0.5,0.5);
                 }
-                frontLeft0.setPower(0);
-                backRight2.setPower(0);
-                frontRight3.setPower(0);
-                backLeft1.setPower(0);
+                else
+                {
+                    MotorPower(0,0,0,0);
+                }
                 break;
 
             default:
@@ -197,5 +169,12 @@ public class AutonomousTest extends OpMode {
         telemetry.addData("Found In:", String.valueOf(value));
         curState = state;
         timer.reset();
+    }
+    public void MotorPower(double p1, double p2, double p3,double p4)
+    {
+        frontLeft0.setPower(p1);
+        backRight2.setPower(p2);
+        frontRight3.setPower(p3);
+        backLeft1.setPower(p4);
     }
 }
