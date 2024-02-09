@@ -15,7 +15,7 @@ public class Manual extends OpMode {
     private ServoController servoController;
     private DcMotor arm1;
     private DcMotor arm2;
-    private Servo claw1;
+    private Servo claw;
     private Servo plane;
     private Servo angle;
     private DcMotor frontLeft0;
@@ -37,7 +37,7 @@ public class Manual extends OpMode {
         suspension = hardwareMap.get(DcMotor.class, "suspension");
 
         // Get servos
-        claw1 = hardwareMap.get(Servo.class, "claw1");
+        claw = hardwareMap.get(Servo.class, "claw");
         angle = hardwareMap.get(Servo.class, "angle");
 
         // Plane launcher
@@ -52,16 +52,13 @@ public class Manual extends OpMode {
         // Enable Control Hub Servos;
         servoController.pwmEnable();
 
-        // correct the claw connected to pin 0;
-        claw1.setDirection(Servo.Direction.REVERSE);
-
         // Set Servos to starting positions;
-        claw1.setPosition(0.5);
+        claw.setPosition(0);
         angle.setPosition(0);
         plane.setPosition(1);
 
         // Configure Max Angles for the servos that need it;
-        claw1.scaleRange(0, 0.5);
+        claw.scaleRange(0, 0.5);
         angle.scaleRange(0, 1);
 
         // Configure DcMotor Directions correctly;
@@ -111,21 +108,20 @@ public class Manual extends OpMode {
         arm2.setPower(power);
 
         // Control Claws
-        if (gamepad2.left_trigger != claw1.getPosition()) {
-            claw1.setPosition(gamepad2.left_trigger / 2);
+        if (gamepad2.left_trigger != claw.getPosition()) {
+            claw.setPosition(gamepad2.left_trigger / 2);
         }
 
         // Claw Angle
         if (gamepad2.dpad_down) {
             angle.setPosition(angle.getPosition() + 0.1);
-        } 
-        else if (gamepad2.dpad_up) {
+        } else if (gamepad2.dpad_up) {
             angle.setPosition(angle.getPosition() - 0.1);
         }
 
         if (gamepad2.a) {
             suspension.setPower(1);
-        } else if (gamepad2.b) {
+        } else if (gamepad2.y) {
             suspension.setPower(-1);
         } else {
             suspension.setPower(0);
