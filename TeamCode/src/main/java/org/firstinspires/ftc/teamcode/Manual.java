@@ -15,7 +15,7 @@ public class Manual extends OpMode {
     private ServoController servoController;
     private DcMotor arm1;
     private DcMotor arm2;
-    private Servo claw1;
+    private Servo claw;
     private Servo plane;
     private Servo angle;
     private DcMotor frontLeft0;
@@ -37,7 +37,7 @@ public class Manual extends OpMode {
         suspension = hardwareMap.get(DcMotor.class, "suspension");
 
         // Get servos
-        claw1 = hardwareMap.get(Servo.class, "claw1");
+        claw = hardwareMap.get(Servo.class, "claw");
         angle = hardwareMap.get(Servo.class, "angle");
 
         // Plane launcher
@@ -52,17 +52,14 @@ public class Manual extends OpMode {
         // Enable Control Hub Servos;
         servoController.pwmEnable();
 
-        // correct the claw connected to pin 0;
-        claw1.setDirection(Servo.Direction.REVERSE);
+        // Configure Max Angles for the servos that need it;
+        claw.scaleRange(0, 0.5);
+        angle.scaleRange(0, 0.55);
 
         // Set Servos to starting positions;
-        claw1.setPosition(0.5);
-        angle.setPosition(0);
-        plane.setPosition(1);
-
-        // Configure Max Angles for the servos that need it;
-        claw1.scaleRange(0, 0.5);
-        angle.scaleRange(0, 1);
+        claw.setPosition(0);
+        plane.setPosition(0.1);
+//        angle.setPosition(0);
 
         // Configure DcMotor Directions correctly;
         // Wheels;
@@ -70,14 +67,15 @@ public class Manual extends OpMode {
         backLeft1.setDirection(DcMotor.Direction.REVERSE);
         backRight2.setDirection(DcMotor.Direction.FORWARD);
         frontRight3.setDirection(DcMotor.Direction.FORWARD);
+        // Arm;
+        arm1.setDirection(DcMotor.Direction.FORWARD);
+        arm2.setDirection(DcMotor.Direction.REVERSE);
+        suspension.setDirection(DcMotor.Direction.REVERSE);
+        hardwareMap.get(DcMotor.class, "armSpin").setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // configure Arm brakes; to counteract Arm not being able to hold itself;
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        arm2.setDirection(DcMotor.Direction.REVERSE);
-
-        // Configure Suspension
-        suspension.setDirection(DcMotor.Direction.REVERSE);
 
         // Update on Driver Hub that Initialization finished;
         telemetry.addData("Initialized", "Finished with no errors");
@@ -93,27 +91,17 @@ public class Manual extends OpMode {
         double strafe = gamepad1.right_stick_x / 2;
 
         // Arm up/down speed;
-        double arm = gamepad2.right_stick_y;
+        double arm = gamepad2.left_stick_y * 0.5;
 
         // Power for Arm Motors (-1 to 1);
-
-        // ternary conditional operator;
-        // example: true ? "this" : "not this"; || false ? "not this" : "this";
-        // syntax: condition ? true value/code : false value/code;
-        // better: (condition) ? true value/code : false value/code;
-        // Should only be used for small things
-        double power = (arm != 0) ? 0.5 * arm : 0;
-
         motorPower(forward, strafe, turn);
 
         // Change arm Lift speed;
-        arm1.setPower(power);
-        arm2.setPower(power);
+        arm1.setPower(arm);
+        arm2.setPower(arm);
 
         // Control Claws
-        if (gamepad2.left_trigger != claw1.getPosition()) {
-            claw1.setPosition(gamepad2.left_trigger / 2);
-        }
+        claw.setPosition(gamepad2.left_trigger / 2);
 
         // Claw Angle
         if (gamepad2.dpad_down) {
@@ -125,7 +113,7 @@ public class Manual extends OpMode {
 
         if (gamepad2.a) {
             suspension.setPower(1);
-        } else if (gamepad2.b) {
+        } else if (gamepad2.y) {
             suspension.setPower(-1);
         } else {
             suspension.setPower(0);
