@@ -59,7 +59,16 @@ public class Manual extends OpMode {
         // Set Servos to starting positions;
         claw.setPosition(0);
         plane.setPosition(0.1);
-//        angle.setPosition(0);
+        // angle.setPosition(0);
+
+        // Set Servos to starting positions;
+        claw.setPosition(0);
+        angle.setPosition(0);
+        plane.setPosition(1);
+
+        // Configure Max Angles for the servos that need it;
+        claw.scaleRange(0, 0.5);
+        angle.scaleRange(0, 1);
 
         // Configure DcMotor Directions correctly;
         // Wheels;
@@ -106,8 +115,7 @@ public class Manual extends OpMode {
         // Claw Angle
         if (gamepad2.dpad_down) {
             angle.setPosition(angle.getPosition() + 0.1);
-        } 
-        else if (gamepad2.dpad_up) {
+        } else if (gamepad2.dpad_up) {
             angle.setPosition(angle.getPosition() - 0.1);
         }
 
