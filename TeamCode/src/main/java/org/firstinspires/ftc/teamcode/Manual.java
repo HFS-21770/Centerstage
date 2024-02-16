@@ -33,7 +33,7 @@ public class Manual extends OpMode {
         // Get Arm Motors
         arm1 = hardwareMap.get(DcMotor.class, "arm1");
         arm2 = hardwareMap.get(DcMotor.class, "arm2");
-        DcMotor armSpin = hardwareMap.get(DcMotor.class, "armSpin");
+        // DcMotor armSpin = hardwareMap.get(DcMotor.class, "armSpin");
 
         // Get Suspension Motor
         suspension = hardwareMap.get(DcMotor.class, "suspension");
@@ -76,7 +76,7 @@ public class Manual extends OpMode {
         // configure Arm brakes; to counteract Arm not being able to hold itself;
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        armSpin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // armSpin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Update on Driver Hub that Initialization finished;
         telemetry.addData("Initialized", "Finished with no errors");

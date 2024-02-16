@@ -108,7 +108,7 @@ telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDista
             case TURNLEFT:
                 if(timer.seconds() < 0.6)
                 {
-                    MotorPower(0.5,-0.5,-0.5,0.5);
+                    MotorPower(-0.5,0.5,0.5,-0.5);
                 }
                 else
                 {
@@ -121,7 +121,7 @@ telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDista
             case TURNRIGHT:
                 if(timer.seconds() < 0.6)
                 {
-                    MotorPower(-0.5,0.5,0.5,-0.5);
+                    MotorPower(0.5,-0.5,-0.5,0.5);
                 }
                 else
                 {
