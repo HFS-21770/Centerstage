@@ -60,7 +60,7 @@ public class Manual extends OpMode {
 
         // Set Servos to starting positions;
         claw.setPosition(0);
-        plane.setPosition(0.1);
+        plane.setPosition(1);
 
         // Configure DcMotor Directions correctly;
         // Wheels;
@@ -85,11 +85,11 @@ public class Manual extends OpMode {
     @Override
     public void loop() {
         // Reverse stick value in order to flip forward and backward movements to be correct;
-        double forward = -gamepad1.left_stick_y;
+        double forward = -gamepad1.left_stick_y / 1.3;
 
         // Factor to counteract imperfect strafing;
-        double turn = gamepad1.left_stick_x * 1.1;
-        double strafe = gamepad1.right_stick_x;
+        double turn = gamepad1.left_stick_x * 1.3;
+        double strafe = gamepad1.right_stick_x / 1.3;
 
         // Arm up/down speed;
         double arm = gamepad2.left_stick_y * 0.5;

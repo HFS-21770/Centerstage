@@ -1,25 +1,20 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
-import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
-import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.sun.tools.javac.util.Convert;
-
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-@Autonomous(name = "AutonomousTest")
+@Autonomous(name = "Autonomous", preselectTeleOp = "Manual") // AutonomousTest
 public class AutonomousTest extends OpMode {
     private DistanceSensor distanceSensorRight;      // The Actual distance sensor on the Right Side
     private DistanceSensor distanceSensorLeft;     // The Actual distance sensor on the Left Side
-
+    private ServoController servoController;
+    private Servo claw;
     private DcMotor frontLeft0;
     private DcMotor frontRight3;
     private DcMotor backLeft1;
@@ -51,13 +46,19 @@ public class AutonomousTest extends OpMode {
 
         curState = State.DRIVE;
 
+        servoController = hardwareMap.get(ServoController.class, "Control Hub");
+        claw = hardwareMap.get(Servo.class, "claw");
+        claw.scaleRange(0, 0.5);
+        claw.setPosition(0);
+
         telemetry.addData("Initialized", "Finished with no errors");
     }
 
     @Override
     public void loop()
     {
-telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDistance(DistanceUnit.MM)));
+
+        telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDistance(DistanceUnit.MM)));
         telemetry.addData("Distance", String.format("%.2f", distanceSensorLeft.getDistance(DistanceUnit.MM)));
 
         telemetry.addData("Timer2", timer.seconds());
@@ -108,7 +109,7 @@ telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDista
             case TURNLEFT:
                 if(timer.seconds() < 0.6)
                 {
-                    MotorPower(-0.5,0.5,0.5,-0.5);
+                    MotorPower(0.5,-0.5,-0.5,0.5);
                 }
                 else
                 {
@@ -121,7 +122,7 @@ telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDista
             case TURNRIGHT:
                 if(timer.seconds() < 0.6)
                 {
-                    MotorPower(0.5,-0.5,-0.5,0.5);
+                    MotorPower(-0.5,0.5,0.5,-0.5);
                 }
                 else
                 {
@@ -131,11 +132,11 @@ telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDista
                 }
                 break;
             case DONTTURN:
-                if(timer.seconds() < 0.5)
+                if(timer.seconds() < 0.1)
                 {
                     MotorPower(0.5,0.5,0.5,0.5);
                 }
-                if(timer.seconds() < 0.9)
+                else if(timer.seconds() < 0.3)
                 {
                     MotorPower(-0.5,-0.5,-0.5,-0.5);
                 }
@@ -159,7 +160,7 @@ telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDista
 
             default:
                 telemetry.addData("State not valid, something went wrong", String.valueOf(curState));
-        } 
+        }
     }
     public enum State
     {
@@ -170,6 +171,8 @@ telemetry.addData("Distance", String.format("%.2f", distanceSensorRight.getDista
         curState = state;
         timer.reset();
     }
+    //טענת כניסה: הפעולה מקבלת 4 מספרים בין -1 ל 1
+    // הפעולה מזיזמה את המנועים לפי כוחות עלו
     public void MotorPower(double p1, double p2, double p3,double p4)
     {
         frontLeft0.setPower(p1);
