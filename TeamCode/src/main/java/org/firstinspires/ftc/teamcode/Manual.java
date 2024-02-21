@@ -73,6 +73,12 @@ public class Manual extends OpMode {
         arm2.setDirection(DcMotor.Direction.REVERSE);
         suspension.setDirection(DcMotor.Direction.REVERSE);
 
+        // Configure Wheels to Brake when provided no Power;
+        frontLeft0.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight3.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         // configure Arm brakes; to counteract Arm not being able to hold itself;
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -88,7 +94,7 @@ public class Manual extends OpMode {
         double forward = -gamepad1.left_stick_y / 1.3;
 
         // Factor to counteract imperfect strafing;
-        double turn = gamepad1.left_stick_x * 1.3;
+        double turn = gamepad1.left_stick_x / 1.45;
         double strafe = gamepad1.right_stick_x / 1.3;
 
         // Arm up/down speed;
