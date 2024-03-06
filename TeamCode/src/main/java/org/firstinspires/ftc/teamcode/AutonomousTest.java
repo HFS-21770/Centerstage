@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -7,9 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-@Autonomous(name = "Autonomous", preselectTeleOp = "Manual") // AutonomousTest
+
+@Autonomous(name = "Autonomous", preselectTeleOp = "Autotest") // AutonomousTest
+@Disabled
 public class AutonomousTest extends OpMode {
     private DistanceSensor distanceSensorRight;      // The Actual distance sensor on the Right Side
     private DistanceSensor distanceSensorLeft;     // The Actual distance sensor on the Left Side
