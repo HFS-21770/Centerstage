@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,9 +13,9 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name="Auto Test By Encoder",preselectTeleOp = "Mecanum Shlomi")
+@Autonomous(name="Autonomous Close Blue",preselectTeleOp = "Manual Controller")
 
-public class AutoTestUsingEncoders extends LinearOpMode
+public class AutonomousCloseBlue extends LinearOpMode
 {
     /* Declare OpMode members. */
     private DcMotor frontLeft0;
@@ -30,7 +31,6 @@ public class AutoTestUsingEncoders extends LinearOpMode
     private DcMotor arm1;
     private DcMotor arm2;
     private Servo claw;
-    private Servo plane;
     private Servo angle;
 
     static final double COUNTS_PER_MOTOR_REV = 28;    // eg: Core Hex HD Motor Encoder
@@ -38,7 +38,7 @@ public class AutoTestUsingEncoders extends LinearOpMode
     static final double WHEEL_DIAMETER_INCHES = 2.95275591;     // For figuring circumference
     static final double COUNTS_PER_INCH = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) / (WHEEL_DIAMETER_INCHES * 3.1415); // 446.86
     static final double DRIVE_SPEED = 0.5;
-    static final double ARM_SPEED = 0.4;
+    static final double ARM_SPEED = 0.7;
 
     public State curState;
     @Override
@@ -84,8 +84,8 @@ public class AutoTestUsingEncoders extends LinearOpMode
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        arm1.setDirection(DcMotor.Direction.FORWARD);
-        arm2.setDirection(DcMotor.Direction.REVERSE);
+        arm1.setDirection(DcMotor.Direction.REVERSE);
+        arm2.setDirection(DcMotor.Direction.FORWARD);
 
         arm1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         arm2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -97,8 +97,15 @@ public class AutoTestUsingEncoders extends LinearOpMode
         claw = hardwareMap.get(Servo.class, "claw");
         angle = hardwareMap.get(Servo.class, "angle");
 
+        servoController.pwmEnable();
+
+        claw.scaleRange(0, 0.5);
+        angle.scaleRange(0, 1);
+
+        claw.setPosition(0);
+        angle.setPosition(0);
         waitForStart();
-        while(curState != State.STOP)
+        while(opModeIsActive())
         {
             switch (curState)
             {
@@ -114,12 +121,12 @@ public class AutoTestUsingEncoders extends LinearOpMode
                     telemetry.addData("State", "Searching");
                     if (distanceSensorRight.getDistance(DistanceUnit.MM) < 300)
                     {
-                        telemetry.addData("State", "Found it on Right side"); // NEEDS TO BE CHANGED DEPENDING ON THE SIDES!!!
+                        telemetry.addData("State", "Found it on Right side");
                         curState = State.TURN_RIGHT;
                     }
                     else if (distanceSensorLeft.getDistance(DistanceUnit.MM) < 300)
                     {
-                        telemetry.addData("State", "Found it on Left side"); // NEEDS TO BE CHANGED DEPENDING ON THE SIDES!!!
+                        telemetry.addData("State", "Found it on Left side");
                         curState = State.TURN_LEFT;
                     }
                     else
@@ -136,7 +143,7 @@ public class AutoTestUsingEncoders extends LinearOpMode
                     encoderDrive(DRIVE_SPEED, -18, 18, 18,-18);
                     curState = State.PUT_LEFT;
                     break;
-                    //-----------------------------------------------------------------------------------------------------
+                //-----------------------------------------------------------------------------------------------------
                 case TURN_RIGHT:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Turning Right");
@@ -144,40 +151,81 @@ public class AutoTestUsingEncoders extends LinearOpMode
                     encoderDrive(DRIVE_SPEED, 18, -18,-18, 18);
                     curState = State.PUT_RIGHT;
                     break;
-                    //-----------------------------------------------------------------------------------------------------
+                //-----------------------------------------------------------------------------------------------------
                 case DONT_TURN:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Walking");
 //                    encoderDrive(DRIVE_SPEED, 3, 3, 3,3);
                     curState = State.PUT_MIDDLE;
                     break;
-                    //-----------------------------------------------------------------------------------------------------
+                //-----------------------------------------------------------------------------------------------------
                 case PUT_LEFT:
-                    //-----------------------------------------------------------------------------------------------------
+                //-----------------------------------------------------------------------------------------------------
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
-                    encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);
+                    encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
+                    encoderDrive(DRIVE_SPEED,11,-11,11,-11);
+                    encoderDrive(DRIVE_SPEED,27,27,27,27);
+                    encoderDrive(DRIVE_SPEED,-16,16,-16,16);
+                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
+                    encoderDrive(DRIVE_SPEED,10,10,10,10);
+                    OpenClaw();
+                    CloseClaw();
+                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);
+
                     telemetry.addData("State","Done_Left");
-                    curState = State.STOP;
+                    curState = State.PARK_LEFT;
                     break;
-                    //-----------------------------------------------------------------------------------------------------
+                //-----------------------------------------------------------------------------------------------------
                 case PUT_RIGHT:
                     //-----------------------------------------------------------------------------------------------------
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);
                     encoderDrive(DRIVE_SPEED, -19, -19, -19,-19);
-                    encoderDrive(DRIVE_SPEED, -36, 36, 36,-36);
-                    encoderArm(ARM_SPEED,50,50);
-
+                    encoderDrive(DRIVE_SPEED, -35.5, 35.5, 35.5,-35.5);
+                    encoderDrive(DRIVE_SPEED,11,11,11,11);
+                    encoderDrive(DRIVE_SPEED,3,-3,3,-3);
+                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
+                    encoderDrive(DRIVE_SPEED,3,3,3,3);
+                    OpenClaw();
+                    CloseClaw();
+                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);
                     telemetry.addData("State","Done_Right");
-                    curState = State.STOP;
+                    curState = State.PARK_RIGHT;
                     break;
+
                 case PUT_MIDDLE:
-                    encoderDrive(DRIVE_SPEED, 8, 8, 8,8);
-                    encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);
+                    encoderDrive(DRIVE_SPEED, 7.75, 7.75, 7.75,7.75);
+                    encoderDrive(DRIVE_SPEED, -5, -5, -5,-5);
+                    encoderDrive(DRIVE_SPEED, -17.75, 17.75, 17.75,-17.75);
+                    encoderDrive(DRIVE_SPEED,30,30,30,30);
+                    encoderDrive(DRIVE_SPEED,-6,6,-6,6);
+                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :
+                    encoderDrive(DRIVE_SPEED,3,3,3,3);
+                    OpenClaw();
+                    CloseClaw();
+                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);
                     telemetry.addData("State","Done_Middle");
+                    curState = State.PARK_MIDDLE;
+                    break;
+                //-----------------------------------------------------------------------------------------------------encoderDrive(DRIVE_SPEED,23,-23,23,-23);
+                //                    encoderDrive(DRIVE_SPEED,10,10,10,10);
+                //                    curState = State.STOP;
+                //                    break;
+                case PARK_LEFT:
+                    encoderDrive(DRIVE_SPEED,34,-34,34,-34);
+                    encoderDrive(DRIVE_SPEED,10,10,10,10);
                     curState = State.STOP;
                     break;
-                    //-----------------------------------------------------------------------------------------------------
+                case PARK_RIGHT:
+                    encoderDrive(DRIVE_SPEED,23,-23,23,-23);
+                    encoderDrive(DRIVE_SPEED,10,10,10,10);
+                    curState = State.STOP;
+                    break;
+                case PARK_MIDDLE:
+                    encoderDrive(DRIVE_SPEED,30,-30,30,-30);
+                    encoderDrive(DRIVE_SPEED,7,7,7,7);
+                    curState = State.STOP;
+                    break;
                 case STOP:
                     telemetry.addData("State","STOPPING");
                 default:
@@ -267,8 +315,8 @@ public class AutoTestUsingEncoders extends LinearOpMode
             arm1.setTargetPosition((int)arm1Position);
             arm2.setTargetPosition((int)arm2Position);
 
-            arm1.setPower(-speed);
-            arm2.setPower(-speed);
+            arm1.setPower(speed);
+            arm2.setPower(speed);
 
             arm1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             arm2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -291,8 +339,30 @@ public class AutoTestUsingEncoders extends LinearOpMode
 
         }
     }
+    public void CloseClaw()
+    {
+        angle.setPosition(0);
+        runtime.reset();
+        while(runtime.seconds() < 1)
+        {
+            telemetry.addData("WAIT","close");
+        }
+        claw.setPosition(0); // open the claw
+    }
+    public void OpenClaw()
+    {
+        angle.setPosition(0.4);
+        runtime.reset();
+        while(runtime.seconds() < 1)
+        {
+            telemetry.addData("WAIT","open");
+        }
+        claw.setPosition(0.5); // open the claw
+    }
+
     public enum State
     {
-        DRIVE, SEARCH, TURN_LEFT,TURN_RIGHT,DONT_TURN, PUT_LEFT,PUT_RIGHT,PUT_MIDDLE,STOP
+        DRIVE, SEARCH, TURN_LEFT,TURN_RIGHT,DONT_TURN, PUT_LEFT,PUT_RIGHT,PUT_MIDDLE,PARK_LEFT,PARK_RIGHT,PARK_MIDDLE,STOP;
     }
 }
+
