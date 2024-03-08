@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.ServoController;
 import org.firstinspires.ftc.robotcore.external.JavaUtil;
 
 @TeleOp(name = "Mecanum Shlomi")
+@Disabled
 public class MecanumNoam extends OpMode{
 
     private ServoController ServoController;
