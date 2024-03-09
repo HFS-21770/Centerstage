@@ -2,18 +2,17 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 // NoamLandau21770's Code
-@Autonomous(name="Autonomous Close Red", preselectTeleOp = "Manual")
+@Autonomous(name = "Autonomous Close Red", preselectTeleOp = "Manual")
 public class AutonomosCloseRed extends LinearOpMode
 {
     /* Declare OpMode members. */
@@ -158,7 +157,7 @@ public class AutonomosCloseRed extends LinearOpMode
                     break;
                 //-----------------------------------------------------------------------------------------------------
                 case PUT_LEFT: // to close to the board
-                //-----------------------------------------------------------------------------------------------------
+                    //-----------------------------------------------------------------------------------------------------
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);
                     encoderDrive(DRIVE_SPEED, -19, -19, -19,-19);
@@ -175,7 +174,7 @@ public class AutonomosCloseRed extends LinearOpMode
                     break;
                 //-----------------------------------------------------------------------------------------------------
                 case PUT_RIGHT:
-                //-----------------------------------------------------------------------------------------------------
+                    //-----------------------------------------------------------------------------------------------------
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
                     encoderDrive(DRIVE_SPEED,-11,11,-11,11);
@@ -360,4 +359,3 @@ public class AutonomosCloseRed extends LinearOpMode
         DRIVE, SEARCH, TURN_LEFT,TURN_RIGHT,DONT_TURN, PUT_LEFT,PUT_RIGHT,PUT_MIDDLE,PARK_LEFT,PARK_RIGHT,PARK_MIDDLE,STOP;
     }
 }
-

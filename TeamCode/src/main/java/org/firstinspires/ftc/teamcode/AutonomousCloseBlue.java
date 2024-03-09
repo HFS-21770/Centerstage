@@ -2,18 +2,17 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 // NoamLandau21770's Code
-@Autonomous(name="Autonomous Close Blue",preselectTeleOp = "Manual")
+@Autonomous(name = "Autonomous Close Blue", preselectTeleOp = "Manual")
 public class AutonomousCloseBlue extends LinearOpMode
 {
     /* Declare OpMode members. */
@@ -159,7 +158,7 @@ public class AutonomousCloseBlue extends LinearOpMode
                     break;
                 //-----------------------------------------------------------------------------------------------------
                 case PUT_LEFT:
-                //-----------------------------------------------------------------------------------------------------
+                    //-----------------------------------------------------------------------------------------------------
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
                     encoderDrive(DRIVE_SPEED,11,-11,11,-11);
@@ -364,4 +363,3 @@ public class AutonomousCloseBlue extends LinearOpMode
         DRIVE, SEARCH, TURN_LEFT,TURN_RIGHT,DONT_TURN, PUT_LEFT,PUT_RIGHT,PUT_MIDDLE,PARK_LEFT,PARK_RIGHT,PARK_MIDDLE,STOP;
     }
 }
-
