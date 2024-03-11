@@ -133,6 +133,8 @@ public class AutonomousPurplePixel extends LinearOpMode {
                     telemetry.addData("State", "Turning Left");
                     encoderDrive(DRIVE_SPEED, 9, 9, 9, 9);
                     encoderDrive(DRIVE_SPEED, -18, 18, 18, -18);
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
+                    encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
                     curState = State.STOP;
                     break;
                 //-----------------------------------------------------------------------------------------------------
@@ -141,13 +143,15 @@ public class AutonomousPurplePixel extends LinearOpMode {
                     telemetry.addData("State", "Turning Right");
                     encoderDrive(DRIVE_SPEED, 9, 9, 9, 9);
                     encoderDrive(DRIVE_SPEED, 18, -18, -18, 18);
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
+                    encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);
                     curState = State.STOP;
                     break;
                 //-----------------------------------------------------------------------------------------------------
                 case DONT_TURN:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State", "Walking");
-                    encoderDrive(DRIVE_SPEED, 7.75, 7.75, 7.75,7.75);
+                    encoderDrive(DRIVE_SPEED, 5.75, 5.75, 5.75,5.75);
                     encoderDrive(DRIVE_SPEED, -5, -5, -5,-5);
                     curState = State.STOP;
                     break;

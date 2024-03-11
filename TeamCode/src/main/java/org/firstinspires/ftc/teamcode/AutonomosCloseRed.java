@@ -141,7 +141,7 @@ public class AutonomosCloseRed extends LinearOpMode
                 case TURN_LEFT:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Turning Left");
-                    encoderDrive(DRIVE_SPEED, 6, 6, 6,6);
+                    encoderDrive(DRIVE_SPEED, 9.5, 9.5, 9.5,9.5);
                     encoderDrive(DRIVE_SPEED, -18, 18, 18,-18);
                     curState = State.PUT_LEFT;
                     break;
@@ -184,7 +184,7 @@ public class AutonomosCloseRed extends LinearOpMode
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
                     encoderDrive(DRIVE_SPEED,-11,11,-11,11);
-                    encoderDrive(DRIVE_SPEED,27,27,27,27);
+                    encoderDrive(DRIVE_SPEED,28,28,28,28);
                     encoderDrive(DRIVE_SPEED,21,-21,21,-21);
                     encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
@@ -199,7 +199,7 @@ public class AutonomosCloseRed extends LinearOpMode
                 case PUT_MIDDLE: // DONT MOVE RIGHT
 
                     encoderDrive(DRIVE_SPEED, 17.75, -17.75, -17.75,17.75);
-                    encoderDrive(DRIVE_SPEED,30,30,30,30);
+                    encoderDrive(DRIVE_SPEED,34,34,34,34);
                     encoderDrive(DRIVE_SPEED,-2,2,-2,2);
                     encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :
                     encoderDrive(DRIVE_SPEED,3,3,3,3);

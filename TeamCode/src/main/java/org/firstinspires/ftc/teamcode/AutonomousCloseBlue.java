@@ -148,7 +148,7 @@ public class AutonomousCloseBlue extends LinearOpMode
                 case TURN_RIGHT:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Turning Right");
-                    encoderDrive(DRIVE_SPEED, 6, 6, 6,6);
+                    encoderDrive(DRIVE_SPEED, 9.5, 9.5, 9.5,9.5);
                     encoderDrive(DRIVE_SPEED, 18, -18,-18, 18);
                     curState = State.PUT_RIGHT;
                     break;
@@ -167,7 +167,7 @@ public class AutonomousCloseBlue extends LinearOpMode
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
                     encoderDrive(DRIVE_SPEED,11,-11,11,-11);
-                    encoderDrive(DRIVE_SPEED,27,27,27,27);
+                    encoderDrive(DRIVE_SPEED,28,28,28,28);
                     encoderDrive(DRIVE_SPEED,-20,20,-20,20);
                     encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
@@ -198,7 +198,7 @@ public class AutonomousCloseBlue extends LinearOpMode
 
                 case PUT_MIDDLE:
                     encoderDrive(DRIVE_SPEED, -17.75, 17.75, 17.75,-17.75);
-                    encoderDrive(DRIVE_SPEED,32,32,32,32);
+                    encoderDrive(DRIVE_SPEED,34,34,34,34);
                     encoderDrive(DRIVE_SPEED,4,-4,4,-4);
                     encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :
                     encoderDrive(DRIVE_SPEED,3,3,3, 3);
