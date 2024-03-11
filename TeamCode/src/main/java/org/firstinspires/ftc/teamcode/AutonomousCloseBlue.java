@@ -2,8 +2,10 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -11,8 +13,8 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-// NoamLandau21770's Code
-@Autonomous(name = "Autonomous Close Blue", preselectTeleOp = "Manual")
+@Autonomous(name="Autonomous Close Blue",preselectTeleOp = "Manual")
+
 public class AutonomousCloseBlue extends LinearOpMode
 {
     /* Declare OpMode members. */
@@ -102,6 +104,7 @@ public class AutonomousCloseBlue extends LinearOpMode
 
         claw.setPosition(0);
         angle.setPosition(0);
+
         waitForStart();
         while(opModeIsActive())
         {
@@ -145,7 +148,7 @@ public class AutonomousCloseBlue extends LinearOpMode
                 case TURN_RIGHT:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Turning Right");
-                    encoderDrive(DRIVE_SPEED, 9, 9, 9,9);
+                    encoderDrive(DRIVE_SPEED, 6, 6, 6,6);
                     encoderDrive(DRIVE_SPEED, 18, -18,-18, 18);
                     curState = State.PUT_RIGHT;
                     break;
@@ -153,17 +156,19 @@ public class AutonomousCloseBlue extends LinearOpMode
                 case DONT_TURN:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Walking");
+                    encoderDrive(DRIVE_SPEED, 5.75, 5.75, 5.75,5.75);
+                    encoderDrive(DRIVE_SPEED, -5, -5, -5,-5);
 //                    encoderDrive(DRIVE_SPEED, 3, 3, 3,3);
                     curState = State.PUT_MIDDLE;
                     break;
                 //-----------------------------------------------------------------------------------------------------
                 case PUT_LEFT:
-                    //-----------------------------------------------------------------------------------------------------
+                //-----------------------------------------------------------------------------------------------------
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
                     encoderDrive(DRIVE_SPEED,11,-11,11,-11);
                     encoderDrive(DRIVE_SPEED,27,27,27,27);
-                    encoderDrive(DRIVE_SPEED,-16,16,-16,16);
+                    encoderDrive(DRIVE_SPEED,-20,20,-20,20);
                     encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
                     OpenClaw();
@@ -183,7 +188,7 @@ public class AutonomousCloseBlue extends LinearOpMode
                     encoderDrive(DRIVE_SPEED,11,11,11,11);
                     encoderDrive(DRIVE_SPEED,3,-3,3,-3);
                     encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
-                    encoderDrive(DRIVE_SPEED,3,3,3,3);
+                    encoderDrive(DRIVE_SPEED,3.5,3.5,3.5,3.5);
                     OpenClaw();
                     CloseClaw();
                     encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);
@@ -192,13 +197,11 @@ public class AutonomousCloseBlue extends LinearOpMode
                     break;
 
                 case PUT_MIDDLE:
-                    encoderDrive(DRIVE_SPEED, 7.75, 7.75, 7.75,7.75);
-                    encoderDrive(DRIVE_SPEED, -5, -5, -5,-5);
                     encoderDrive(DRIVE_SPEED, -17.75, 17.75, 17.75,-17.75);
-                    encoderDrive(DRIVE_SPEED,30,30,30,30);
-                    encoderDrive(DRIVE_SPEED,-6,6,-6,6);
+                    encoderDrive(DRIVE_SPEED,32,32,32,32);
+                    encoderDrive(DRIVE_SPEED,4,-4,4,-4);
                     encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :
-                    encoderDrive(DRIVE_SPEED,3,3,3,3);
+                    encoderDrive(DRIVE_SPEED,3,3,3, 3);
                     OpenClaw();
                     CloseClaw();
                     encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);
@@ -210,17 +213,17 @@ public class AutonomousCloseBlue extends LinearOpMode
                 //                    curState = State.STOP;
                 //                    break;
                 case PARK_LEFT:
-                    encoderDrive(DRIVE_SPEED,34,-34,34,-34);
+                    encoderDrive(DRIVE_SPEED,-34,34,-34,34);
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
                     curState = State.STOP;
                     break;
                 case PARK_RIGHT:
-                    encoderDrive(DRIVE_SPEED,23,-23,23,-23);
+                    encoderDrive(DRIVE_SPEED,-32,32,-32,32);
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
                     curState = State.STOP;
                     break;
                 case PARK_MIDDLE:
-                    encoderDrive(DRIVE_SPEED,30,-30,30,-30);
+                    encoderDrive(DRIVE_SPEED,-30,30,-30,30);
                     encoderDrive(DRIVE_SPEED,7,7,7,7);
                     curState = State.STOP;
                     break;
@@ -363,3 +366,4 @@ public class AutonomousCloseBlue extends LinearOpMode
         DRIVE, SEARCH, TURN_LEFT,TURN_RIGHT,DONT_TURN, PUT_LEFT,PUT_RIGHT,PUT_MIDDLE,PARK_LEFT,PARK_RIGHT,PARK_MIDDLE,STOP;
     }
 }
+
