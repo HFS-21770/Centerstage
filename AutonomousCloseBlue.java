@@ -8,7 +8,6 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.ServoController;
-import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
@@ -23,10 +22,9 @@ public class AutonomousCloseBlue extends LinearOpMode
     private DcMotor backLeft1;
     private DcMotor backRight2;
 
-    private DistanceSensor distanceSensorRight;      // The Actual distance sensor on the ____
-    private DistanceSensor distanceSensorLeft;     // The Actual distance sensor on the ____
+    private DistanceSensor distanceSensorRight;      
+    private DistanceSensor distanceSensorLeft;    
 
-    private ElapsedTime runtime = new ElapsedTime();
     private ServoController servoController;
     private DcMotor arm1;
     private DcMotor arm2;
@@ -43,6 +41,7 @@ public class AutonomousCloseBlue extends LinearOpMode
     public State curState;
     @Override
     public void runOpMode() {
+        // Get Wheel Motors
         frontLeft0 = hardwareMap.get(DcMotorEx.class, "frontLeft0");
         frontRight3 = hardwareMap.get(DcMotorEx.class, "frontRight3");
         backLeft1 = hardwareMap.get(DcMotorEx.class, "backLeft1");
@@ -98,7 +97,7 @@ public class AutonomousCloseBlue extends LinearOpMode
         angle = hardwareMap.get(Servo.class, "angle");
 
         servoController.pwmEnable();
-
+        // Reset Servos
         claw.scaleRange(0, 0.5);
         angle.scaleRange(0, 1);
 
@@ -111,7 +110,7 @@ public class AutonomousCloseBlue extends LinearOpMode
             {
                 case DRIVE:
 
-                    encoderDrive(DRIVE_SPEED, 24, 24, 24,24); // 6.
+                    encoderDrive(DRIVE_SPEED, 24, 24, 24,24);
                     telemetry.addData("State","Moved");
                     curState = State.SEARCH;
                     break;
@@ -137,36 +136,35 @@ public class AutonomousCloseBlue extends LinearOpMode
                     break;
 
                 case TURN_LEFT:
-                    //-----------------------------------------------------------------------------------------------------
+                    
                     telemetry.addData("State","Turning Left");
                     encoderDrive(DRIVE_SPEED, 9, 9, 9,9);
                     encoderDrive(DRIVE_SPEED, -18, 18, 18,-18);
                     curState = State.PUT_LEFT;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+               
                 case TURN_RIGHT:
-                    //-----------------------------------------------------------------------------------------------------
+                   
                     telemetry.addData("State","Turning Right");
                     encoderDrive(DRIVE_SPEED, 9, 9, 9,9);
                     encoderDrive(DRIVE_SPEED, 18, -18,-18, 18);
                     curState = State.PUT_RIGHT;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+               
                 case DONT_TURN:
-                    //-----------------------------------------------------------------------------------------------------
+                  
                     telemetry.addData("State","Walking");
-//                    encoderDrive(DRIVE_SPEED, 3, 3, 3,3);
                     curState = State.PUT_MIDDLE;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+               
                 case PUT_LEFT:
-                //-----------------------------------------------------------------------------------------------------
+               
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
                     encoderDrive(DRIVE_SPEED,11,-11,11,-11);
                     encoderDrive(DRIVE_SPEED,27,27,27,27);
                     encoderDrive(DRIVE_SPEED,-16,16,-16,16);
-                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
+                    encoderArm(ARM_SPEED,100,100);
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
                     OpenClaw();
                     CloseClaw();
@@ -175,16 +173,16 @@ public class AutonomousCloseBlue extends LinearOpMode
                     telemetry.addData("State","Done_Left");
                     curState = State.PARK_LEFT;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+               
                 case PUT_RIGHT:
-                    //-----------------------------------------------------------------------------------------------------
+                    
                     encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
                     encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);
                     encoderDrive(DRIVE_SPEED, -19, -19, -19,-19);
                     encoderDrive(DRIVE_SPEED, -35.5, 35.5, 35.5,-35.5);
                     encoderDrive(DRIVE_SPEED,11,11,11,11);
                     encoderDrive(DRIVE_SPEED,3,-3,3,-3);
-                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
+                    encoderArm(ARM_SPEED,100,100); 
                     encoderDrive(DRIVE_SPEED,3,3,3,3);
                     OpenClaw();
                     CloseClaw();
@@ -199,7 +197,7 @@ public class AutonomousCloseBlue extends LinearOpMode
                     encoderDrive(DRIVE_SPEED, -17.75, 17.75, 17.75,-17.75);
                     encoderDrive(DRIVE_SPEED,30,30,30,30);
                     encoderDrive(DRIVE_SPEED,-6,6,-6,6);
-                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :
+                    encoderArm(ARM_SPEED,100,100);
                     encoderDrive(DRIVE_SPEED,3,3,3,3);
                     OpenClaw();
                     CloseClaw();
@@ -207,25 +205,28 @@ public class AutonomousCloseBlue extends LinearOpMode
                     telemetry.addData("State","Done_Middle");
                     curState = State.PARK_MIDDLE;
                     break;
-                //-----------------------------------------------------------------------------------------------------encoderDrive(DRIVE_SPEED,23,-23,23,-23);
-                //                    encoderDrive(DRIVE_SPEED,10,10,10,10);
-                //                    curState = State.STOP;
-                //                    break;
+                
                 case PARK_LEFT:
+                
                     encoderDrive(DRIVE_SPEED,34,-34,34,-34);
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
                     curState = State.STOP;
                     break;
+                    
                 case PARK_RIGHT:
+                    
                     encoderDrive(DRIVE_SPEED,23,-23,23,-23);
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
                     curState = State.STOP;
                     break;
+                    
                 case PARK_MIDDLE:
+                    
                     encoderDrive(DRIVE_SPEED,30,-30,30,-30);
                     encoderDrive(DRIVE_SPEED,7,7,7,7);
                     curState = State.STOP;
                     break;
+                    
                 case STOP:
                     telemetry.addData("State","STOPPING");
                 default:
@@ -245,10 +246,10 @@ public class AutonomousCloseBlue extends LinearOpMode
         {
 
             // Determine new target position, and pass to motor controller
-            newFrontLeftTarget = (int)(frontLeftInches * COUNTS_PER_INCH); // frontLeft0.getCurrentPosition() +
-            newFrontRightTarget =  (int)(frontRightInches * COUNTS_PER_INCH); // frontRight3.getCurrentPosition() +
-            newBackLeftTarget = (int)(backLeftInches * COUNTS_PER_INCH); // backLeft1.getCurrentPosition() +
-            newBackRightTarget = (int)(backRightInches * COUNTS_PER_INCH); //  backRight2.getCurrentPosition() +
+            newFrontLeftTarget = (int)(frontLeftInches * COUNTS_PER_INCH);
+            newFrontRightTarget =  (int)(frontRightInches * COUNTS_PER_INCH); 
+            newBackLeftTarget = (int)(backLeftInches * COUNTS_PER_INCH); 
+            newBackRightTarget = (int)(backRightInches * COUNTS_PER_INCH); 
 
             telemetry.addData("Running to:", newFrontLeftTarget);
 
@@ -263,20 +264,14 @@ public class AutonomousCloseBlue extends LinearOpMode
             frontRight3.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             backRight2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            // reset the timeout time and start motion.
-            runtime.reset();
+            // start motion.
             frontLeft0.setPower(Math.abs(speed));
             backLeft1.setPower(Math.abs(speed));
             frontRight3.setPower(Math.abs(speed));
             backRight2.setPower(Math.abs(speed));
 
             // keep looping while we are still active, and there is time left, and both motors are running.
-            // Note: We use (isBusy() && isBusy()) in the loop test, which means that when EITHER motor hits
-            // its target position, the motion will stop.  This is "safer" in the event that the robot will
-            // always end the motion as soon as possible.
-            // However, if you require that BOTH motors have finished their moves before the robot continues
-            // onto the next step, use (isBusy() || isBusy()) in the loop test.
-            while (opModeIsActive() && (frontLeft0.isBusy() && backLeft1.isBusy() && frontRight3.isBusy() && backRight2.isBusy())) // runtime.seconds() < timeoutS
+            while (opModeIsActive() && (frontLeft0.isBusy() && backLeft1.isBusy() && frontRight3.isBusy() && backRight2.isBusy()))
             {
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newFrontLeftTarget,  newBackRightTarget);
@@ -345,9 +340,9 @@ public class AutonomousCloseBlue extends LinearOpMode
         runtime.reset();
         while(runtime.seconds() < 1)
         {
-            telemetry.addData("WAIT","close");
+            telemetry.addData("WAITING","");
         }
-        claw.setPosition(0); // open the claw
+        claw.setPosition(0); // close the claw
     }
     public void OpenClaw()
     {
@@ -355,7 +350,7 @@ public class AutonomousCloseBlue extends LinearOpMode
         runtime.reset();
         while(runtime.seconds() < 1)
         {
-            telemetry.addData("WAIT","open");
+            telemetry.addData("WAITING","");
         }
         claw.setPosition(0.5); // open the claw
     }
