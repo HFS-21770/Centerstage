@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name="Autoonomous Far Blue",preselectTeleOp = "Manual Controller")
+@Autonomous(name="Autoonomous Far Blue",preselectTeleOp = "Manual")
 public class AutonomousFarBlue extends LinearOpMode
 {
     /* Declare OpMode members. */
@@ -20,8 +20,8 @@ public class AutonomousFarBlue extends LinearOpMode
     private DcMotor backLeft1;
     private DcMotor backRight2;
 
-    private DistanceSensor distanceSensorRight;      // The Actual distance sensor on the ____
-    private DistanceSensor distanceSensorLeft;     // The Actual distance sensor on the ____
+    private DistanceSensor distanceSensorRight;      // The Actual distance sensor on the Right
+    private DistanceSensor distanceSensorLeft;     // The Actual distance sensor on the Left
 
     private ElapsedTime runtime = new ElapsedTime();
     private ServoController servoController;
