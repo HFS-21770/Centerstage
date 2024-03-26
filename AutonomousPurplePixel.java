@@ -94,6 +94,7 @@ public class AutonomousPurplePixel extends LinearOpMode {
         claw = hardwareMap.get(Servo.class, "claw");
         angle = hardwareMap.get(Servo.class, "angle");
 
+
         servoController.pwmEnable();
 
         claw.scaleRange(0, 0.5);
@@ -101,67 +102,68 @@ public class AutonomousPurplePixel extends LinearOpMode {
 
         claw.setPosition(0);
         angle.setPosition(0);
+
         waitForStart();
-        while(opModeIsActive())
-        {
-            switch (curState)
-            {
+        while(opModeIsActive()) {
+            switch (curState) {
                 case DRIVE:
 
-                    encoderDrive(DRIVE_SPEED, 24, 24, 24,24); // 6.
-                    telemetry.addData("State","Moved");
+                    encoderDrive(DRIVE_SPEED,10,10,10,10);
+                    encoderDrive(DRIVE_SPEED,4,-4,4,-4);
+                    encoderDrive(DRIVE_SPEED, 14, 14, 14,14);   // E2
+                    telemetry.addData("State", "Moved");
                     curState = State.SEARCH;
                     break;
 
                 case SEARCH:
 
                     telemetry.addData("State", "Searching");
-                    if (distanceSensorRight.getDistance(DistanceUnit.MM) < 300)
-                    {
+                    if (distanceSensorRight.getDistance(DistanceUnit.MM) < 300) {
                         telemetry.addData("State", "Found it on Right side");
                         curState = State.TURN_RIGHT;
-                    }
-                    else if (distanceSensorLeft.getDistance(DistanceUnit.MM) < 300)
-                    {
+                    } else if (distanceSensorLeft.getDistance(DistanceUnit.MM) < 300) {
                         telemetry.addData("State", "Found it on Left side");
                         curState = State.TURN_LEFT;
-                    }
-                    else
-                    {
+                    } else {
                         telemetry.addData("State", "Found it upfront");
                         curState = State.DONT_TURN;
                     }
                     break;
 
                 case TURN_LEFT:
-                    //-----------------------------------------------------------------------------------------------------
+
                     telemetry.addData("State","Turning Left");
-                    encoderDrive(DRIVE_SPEED, 9, 9, 9,9);
-                    encoderDrive(DRIVE_SPEED, -18, 18, 18,-18);
-                    curState = State.PUT_LEFT;
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);               // WALK A LITTLE BT TO TURN
+                    encoderDrive(DRIVE_SPEED, -18, 18, 18,-18);         // TURN 90
+                    encoderDrive(DRIVE_SPEED, 4.5, 4.5,4.5, 4.5);       // PUT PIXEL ON MARK
+                    encoderDrive(DRIVE_SPEED, -4.5, -4.5, -4.5,-4.5);   // GO BACK
+                    curState = State.STOP;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+
                 case TURN_RIGHT:
-                    //-----------------------------------------------------------------------------------------------------
+
                     telemetry.addData("State","Turning Right");
-                    encoderDrive(DRIVE_SPEED, 9, 9, 9,9);
-                    encoderDrive(DRIVE_SPEED, 18, -18,-18, 18);
-                    curState = State.PUT_RIGHT;
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);                   // WALK A LITTLE
+                    encoderDrive(DRIVE_SPEED, 17.75, -17.75,-17.75, 17.75); // TURN 90
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);                   // PUT PIXEL ON MARK
+                    encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);               // BACK AWAY
+                    curState = State.STOP;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+
                 case DONT_TURN:
-                    //-----------------------------------------------------------------------------------------------------
-                    telemetry.addData("State","Walking");
-                    curState = State.PUT_MIDDLE;
+
+                    telemetry.addData("State", "Walking");
+                    encoderDrive(DRIVE_SPEED, 5.75, 5.75, 5.75,5.75);
+                    encoderDrive(DRIVE_SPEED, -5, -5, -5,-5);
+                    curState = State.STOP;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+
                 case STOP:
-                    telemetry.addData("State","STOPPING");
+                    telemetry.addData("State", "STOPPING");
                 default:
                     telemetry.addData("State not valid, something went wrong", String.valueOf(curState));
             }
         }
-
     }
 
     public void encoderDrive(double speed, double frontLeftInches, double frontRightInches,double backRightInches,double backLeftInches) {
