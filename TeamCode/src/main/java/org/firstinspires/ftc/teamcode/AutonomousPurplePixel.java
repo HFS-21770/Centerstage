@@ -108,7 +108,9 @@ public class AutonomousPurplePixel extends LinearOpMode {
             switch (curState) {
                 case DRIVE:
 
-                    encoderDrive(DRIVE_SPEED, 24, 24, 24, 24); // 6.
+                    encoderDrive(DRIVE_SPEED,10,10,10,10);
+                    encoderDrive(DRIVE_SPEED,4,-4,4,-4);
+                    encoderDrive(DRIVE_SPEED, 14, 14, 14,14);   // E2
                     telemetry.addData("State", "Moved");
                     curState = State.SEARCH;
                     break;
@@ -129,33 +131,33 @@ public class AutonomousPurplePixel extends LinearOpMode {
                     break;
 
                 case TURN_LEFT:
-                    //-----------------------------------------------------------------------------------------------------
-                    telemetry.addData("State", "Turning Left");
-                    encoderDrive(DRIVE_SPEED, 9, 9, 9, 9);
-                    encoderDrive(DRIVE_SPEED, -18, 18, 18, -18);
-                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
-                    encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
+
+                    telemetry.addData("State","Turning Left");
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);               // WALK A LITTLE BT TO TURN
+                    encoderDrive(DRIVE_SPEED, -18, 18, 18,-18);         // TURN 90
+                    encoderDrive(DRIVE_SPEED, 4.5, 4.5,4.5, 4.5);       // PUT PIXEL ON MARK
+                    encoderDrive(DRIVE_SPEED, -4.5, -4.5, -4.5,-4.5);   // GO BACK
                     curState = State.STOP;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+
                 case TURN_RIGHT:
-                    //-----------------------------------------------------------------------------------------------------
-                    telemetry.addData("State", "Turning Right");
-                    encoderDrive(DRIVE_SPEED, 9, 9, 9, 9);
-                    encoderDrive(DRIVE_SPEED, 18, -18, -18, 18);
-                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
-                    encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);
+
+                    telemetry.addData("State","Turning Right");
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);                   // WALK A LITTLE
+                    encoderDrive(DRIVE_SPEED, 17.75, -17.75,-17.75, 17.75); // TURN 90
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);                   // PUT PIXEL ON MARK
+                    encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);               // BACK AWAY
                     curState = State.STOP;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+
                 case DONT_TURN:
-                    //-----------------------------------------------------------------------------------------------------
+
                     telemetry.addData("State", "Walking");
                     encoderDrive(DRIVE_SPEED, 5.75, 5.75, 5.75,5.75);
                     encoderDrive(DRIVE_SPEED, -5, -5, -5,-5);
                     curState = State.STOP;
                     break;
-                //-----------------------------------------------------------------------------------------------------
+
                 case STOP:
                     telemetry.addData("State", "STOPPING");
                 default:
