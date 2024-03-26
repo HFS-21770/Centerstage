@@ -23,8 +23,8 @@ public class AutonomousCloseBlue extends LinearOpMode
     private DcMotor backLeft1;
     private DcMotor backRight2;
 
-    private DistanceSensor distanceSensorRight;      // The Actual distance sensor on the ____
-    private DistanceSensor distanceSensorLeft;     // The Actual distance sensor on the ____
+    private DistanceSensor distanceSensorRight;      // The Actual distance sensor on the Right
+    private DistanceSensor distanceSensorLeft;     // The Actual distance sensor on the Left
 
     private ElapsedTime runtime = new ElapsedTime();
     private ServoController servoController;
@@ -112,7 +112,9 @@ public class AutonomousCloseBlue extends LinearOpMode
             {
                 case DRIVE:
 
-                    encoderDrive(DRIVE_SPEED, 24, 24, 24,24); // 6.
+                    encoderDrive(DRIVE_SPEED,10,10,10,10);
+                    encoderDrive(DRIVE_SPEED,4,-4,4,-4);
+                    encoderDrive(DRIVE_SPEED, 14, 14, 14,14);
                     telemetry.addData("State","Moved");
                     curState = State.SEARCH;
                     break;
@@ -140,40 +142,42 @@ public class AutonomousCloseBlue extends LinearOpMode
                 case TURN_LEFT:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Turning Left");
-                    encoderDrive(DRIVE_SPEED, 9, 9, 9,9);
-                    encoderDrive(DRIVE_SPEED, -18, 18, 18,-18);
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);               // WALK A LITTLE BT TO TURN
+                    encoderDrive(DRIVE_SPEED, -18, 18,18, -18);         // TURN 90
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);               // PUT PIXEL ON MARK
+                    encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);           // GO BACK
                     curState = State.PUT_LEFT;
                     break;
                 //-----------------------------------------------------------------------------------------------------
                 case TURN_RIGHT:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Turning Right");
-                    encoderDrive(DRIVE_SPEED, 9.5, 9.5, 9.5,9.5);
-                    encoderDrive(DRIVE_SPEED, 18, -18,-18, 18);
+                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);               // WALK A LITTLE BT TO TURN
+                    encoderDrive(DRIVE_SPEED, 18, -18, -18,18);         // TURN 90
+                    encoderDrive(DRIVE_SPEED, 4.5, 4.5,4.5, 4.5);       // PUT PIXEL ON MARK
+                    encoderDrive(DRIVE_SPEED, -4.5, -4.5, -4.5,-4.5);   // GO BACK
                     curState = State.PUT_RIGHT;
                     break;
                 //-----------------------------------------------------------------------------------------------------
                 case DONT_TURN:
                     //-----------------------------------------------------------------------------------------------------
                     telemetry.addData("State","Walking");
-                    encoderDrive(DRIVE_SPEED, 5.75, 5.75, 5.75,5.75);
-                    encoderDrive(DRIVE_SPEED, -5, -5, -5,-5);
+                    encoderDrive(DRIVE_SPEED, 5.75, 5.75, 5.75,5.75);   // PUT PIXEL ON MARK
+                    encoderDrive(DRIVE_SPEED, -5, -5, -5,-5);           // GO BACK
 //                    encoderDrive(DRIVE_SPEED, 3, 3, 3,3);
                     curState = State.PUT_MIDDLE;
                     break;
                 //-----------------------------------------------------------------------------------------------------
                 case PUT_LEFT:
                 //-----------------------------------------------------------------------------------------------------
-                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
-                    encoderDrive(DRIVE_SPEED, -6, -6, -6,-6);
-                    encoderDrive(DRIVE_SPEED,11,-11,11,-11);
-                    encoderDrive(DRIVE_SPEED,28,28,28,28);
-                    encoderDrive(DRIVE_SPEED,-20,20,-20,20);
-                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
-                    encoderDrive(DRIVE_SPEED,10,10,10,10);
-                    OpenClaw();
-                    CloseClaw();
-                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);
+                    encoderDrive(DRIVE_SPEED,11,-11,11,-11);                    // C4
+                    encoderDrive(DRIVE_SPEED,27,27,27,27);                      // C5
+                    encoderDrive(DRIVE_SPEED,-13,13,-13,13);                    // B5
+                    encoderArm(ARM_SPEED,100,100);                                                             // ARM UP
+                    encoderDrive(DRIVE_SPEED,13,13,13,13);                      // MAKE CONTACT WITH BOARD
+                    OpenClaw();                                                                                                      // OPEN CLAW
+                    CloseClaw();                                                                                                     // CLOSE CLAW
+                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);                      // BACK AWAY FROM BACKDROP
 
                     telemetry.addData("State","Done_Left");
                     curState = State.PARK_LEFT;
@@ -181,39 +185,34 @@ public class AutonomousCloseBlue extends LinearOpMode
                 //-----------------------------------------------------------------------------------------------------
                 case PUT_RIGHT:
                     //-----------------------------------------------------------------------------------------------------
-                    encoderDrive(DRIVE_SPEED, 4, 4, 4,4);
-                    encoderDrive(DRIVE_SPEED, -4, -4, -4,-4);
-                    encoderDrive(DRIVE_SPEED, -19, -19, -19,-19);
-                    encoderDrive(DRIVE_SPEED, -35.5, 35.5, 35.5,-35.5);
-                    encoderDrive(DRIVE_SPEED,11,11,11,11);
-                    encoderDrive(DRIVE_SPEED,3,-3,3,-3);
-                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :)
-                    encoderDrive(DRIVE_SPEED,3.5,3.5,3.5,3.5);
-                    OpenClaw();
-                    CloseClaw();
-                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);
+                    encoderDrive(DRIVE_SPEED, -19, -19, -19,-19);       // B5
+                    encoderDrive(DRIVE_SPEED, -35.5, 35.5, 35.5,-35.5); // TURN 180
+                    encoderDrive(DRIVE_SPEED,12.5,12.5,12.5,12.5);      // GO TO BACKDROP
+                    encoderDrive(DRIVE_SPEED,7.25,-7.25,7.25,-7.25);    // LITTLE ADJUSTMENT
+                    encoderArm(ARM_SPEED,100,100);                                                     // ARM UP
+                    encoderDrive(DRIVE_SPEED,3,3,3,3);                  // MAKE CONTACT WITH THE BACKDROP
+                    OpenClaw();                                                                                              // OPEN CLAW
+                    CloseClaw();                                                                                             //CLOSE CLAW
+                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);              // BACK AWAY FROM BACKDROP
                     telemetry.addData("State","Done_Right");
                     curState = State.PARK_RIGHT;
                     break;
 
                 case PUT_MIDDLE:
-                    encoderDrive(DRIVE_SPEED, -17.75, 17.75, 17.75,-17.75);
-                    encoderDrive(DRIVE_SPEED,34,34,34,34);
-                    encoderDrive(DRIVE_SPEED,4,-4,4,-4);
-                    encoderArm(ARM_SPEED,100,100); // <--- THIS WORKS :
-                    encoderDrive(DRIVE_SPEED,3,3,3, 3);
-                    OpenClaw();
-                    CloseClaw();
-                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);
+                    encoderDrive(DRIVE_SPEED, -17.75, 17.75, 17.75,-17.75);     // TURN 90
+                    encoderDrive(DRIVE_SPEED,31,31,31,31);                      // B5 - B6
+                    encoderDrive(DRIVE_SPEED,7.25,-7.25,7.25,-7.25);            // MINOR ADJUSTMENTS
+                    encoderArm(ARM_SPEED,100,100);                                                             // ARM UP
+                    encoderDrive(DRIVE_SPEED,3,3.25,3.25,3.25);                 // MAKE CONTACT WITH BOARD
+                    OpenClaw();                                                                                                      // OPEN CLAW
+                    CloseClaw();                                                                                                     // CLOSE CLAW
+                    encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);                      // BACK AWAY FROM BACKDROP
                     telemetry.addData("State","Done_Middle");
                     curState = State.PARK_MIDDLE;
                     break;
-                //-----------------------------------------------------------------------------------------------------encoderDrive(DRIVE_SPEED,23,-23,23,-23);
-                //                    encoderDrive(DRIVE_SPEED,10,10,10,10);
-                //                    curState = State.STOP;
-                //                    break;
+                //-----------------------------------------------------------------------------------------------------
                 case PARK_LEFT:
-                    encoderDrive(DRIVE_SPEED,-34,34,-34,34);
+                    encoderDrive(DRIVE_SPEED,-30,30,-30,30);
                     encoderDrive(DRIVE_SPEED,10,10,10,10);
                     curState = State.STOP;
                     break;
@@ -366,4 +365,3 @@ public class AutonomousCloseBlue extends LinearOpMode
         DRIVE, SEARCH, TURN_LEFT,TURN_RIGHT,DONT_TURN, PUT_LEFT,PUT_RIGHT,PUT_MIDDLE,PARK_LEFT,PARK_RIGHT,PARK_MIDDLE,STOP;
     }
 }
-
