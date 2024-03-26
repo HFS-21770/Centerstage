@@ -33,7 +33,6 @@ public class Manual extends OpMode {
         // Get Arm Motors
         arm1 = hardwareMap.get(DcMotor.class, "arm1");
         arm2 = hardwareMap.get(DcMotor.class, "arm2");
-        // DcMotor armSpin = hardwareMap.get(DcMotor.class, "armSpin");
 
         // Get Suspension Motor
         suspension = hardwareMap.get(DcMotor.class, "suspension");
@@ -47,9 +46,9 @@ public class Manual extends OpMode {
 
         // Get Wheel Motors
         frontLeft0 = hardwareMap.get(DcMotor.class, "frontLeft0");
-        frontRight3 = hardwareMap.get(DcMotor.class, "frontRight3");
         backLeft1 = hardwareMap.get(DcMotor.class, "backLeft1");
         backRight2 = hardwareMap.get(DcMotor.class, "backRight2");
+        frontRight3 = hardwareMap.get(DcMotor.class, "frontRight3");
 
         // Enable Control Hub Servos;
         servoController.pwmEnable();
@@ -82,7 +81,8 @@ public class Manual extends OpMode {
         // configure Arm brakes; to counteract Arm not being able to hold itself;
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        // armSpin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        // Configure suspension Zero Power Behavior;
+        suspension.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Update on Driver Hub that Initialization finished;
         telemetry.addData("Initialized", "Finished with no errors");
@@ -97,6 +97,12 @@ public class Manual extends OpMode {
         double turn = gamepad1.left_stick_x / 1.45;
         double strafe = gamepad1.right_stick_x / 1.3;
 
+        if (gamepad1.right_trigger == 1) {
+            forward /= 3;
+            strafe /= 3;
+            turn /= 3;
+        }
+        
         // Arm up/down speed;
         double arm = gamepad2.left_stick_y * 0.5;
 
