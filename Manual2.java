@@ -15,7 +15,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagGameDatabase;
 import org.firstinspires.ftc.vision.apriltag.AprilTagLibrary;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
 
-@TeleOp(name = "Mecanum Shlomi")
+@TeleOp(name = "Manual Controller")
 public class Manual2 extends OpMode
 {
 
@@ -43,7 +43,6 @@ public class Manual2 extends OpMode
         // Get Arm Motors
         arm1 = hardwareMap.get(DcMotor.class, "arm1");
         arm2 = hardwareMap.get(DcMotor.class, "arm2");
-        // DcMotor armSpin = hardwareMap.get(DcMotor.class, "armSpin");
 
         // Get Suspension Motor
         suspension = hardwareMap.get(DcMotor.class, "suspension");
@@ -93,7 +92,6 @@ public class Manual2 extends OpMode
         // configure Arm brakes; to counteract Arm not being able to hold itself;
         arm1.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm2.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        // armSpin.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Update on Driver Hub that Initialization finished;
         telemetry.addData("Initialized", "Finished with no errors");
@@ -118,11 +116,17 @@ public class Manual2 extends OpMode
     public void loop()
     {
         // Reverse stick value in order to flip forward and backward movements to be correct;
-        double forward = -gamepad1.left_stick_y / 1.3;
+        double forward = -gamepad1.left_stick_y / 1.1;
 
         // Factor to counteract imperfect strafing;
         double turn = gamepad1.left_stick_x / 1.45;
-        double strafe = gamepad1.right_stick_x / 1.3;
+        double strafe = gamepad1.right_stick_x / 1.2;
+
+        if(gamepad1.right_trigger == 1){
+            forward = -gamepad1.left_stick_y / 1.1 / 3;
+            strafe = gamepad1.right_stick_x / 1.1 / 3;
+            turn = gamepad1.left_stick_x / 1.45 / 3;
+        }
 
         // Arm up/down speed;
         double arm = gamepad2.left_stick_y * 0.5;
@@ -156,7 +160,6 @@ public class Manual2 extends OpMode
         if (gamepad1.x) {
             plane.setPosition(0);
         }
-
 //        int detections = 0;
 //        telemetry.addData("Detections", "");
 //        telemetry.addData("FPS", String.format("%.2f", visionPortal.getFps()));
