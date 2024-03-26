@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DistanceSensor;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@Autonomous(name="Autoonomous Far Red",preselectTeleOp = "Manual Controller")
+@Autonomous(name="Autoonomous Far Red",preselectTeleOp = "Manual")
 public class AutonomousFarRed extends LinearOpMode
 {
     /* Declare OpMode members. */
