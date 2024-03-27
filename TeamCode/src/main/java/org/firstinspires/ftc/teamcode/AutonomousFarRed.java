@@ -190,7 +190,7 @@ public class AutonomousFarRed extends LinearOpMode
                     encoderDrive(DRIVE_SPEED,24,24,24,24);                // D1
                     runtime.reset();
                     Thread.sleep(500);
-                    encoderDrive(DRIVE_SPEED,-17.4,17.4,17.4,-17.4);
+                    encoderDrive(DRIVE_SPEED,-17,17,17,-17);
                     Thread.sleep(500);
                     encoderDrive(0.7,-98,-98,-98,-98);            // DRIVE TO D5
                     Thread.sleep(500);

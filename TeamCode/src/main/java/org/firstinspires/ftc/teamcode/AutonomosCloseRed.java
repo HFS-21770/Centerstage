@@ -177,9 +177,9 @@ public class AutonomosCloseRed extends LinearOpMode
                     encoderDrive(DRIVE_SPEED, -19, -19, -19,-19);       // E5
                     encoderDrive(DRIVE_SPEED, 35.5, -35.5, -35.5,35.5); // TURN 180
                     encoderDrive(DRIVE_SPEED,15,15,15,15);              // GO TO BACKDROP
-                    encoderDrive(DRIVE_SPEED,-3,3,-3,3);                // LITTLE ADJUSTMENT
+                    encoderDrive(DRIVE_SPEED,-4,4,-4,4);                // LITTLE ADJUSTMENT
                     encoderArm(ARM_SPEED,100,100);                                                     // ARM UP
-                    encoderDrive(DRIVE_SPEED,3,3,3,3);                  // MAKE CONTACT WITH THE BACKDROP
+                    encoderDrive(0.3,7,7,7,7);                  // MAKE CONTACT WITH THE BACKDROP
                     OpenClaw();                                                                                              // OPEN CLAW
                     CloseClaw();                                                                                             //CLOSE CLAW
                     encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);              // BACK AWAY FROM BACKDROP
@@ -193,7 +193,7 @@ public class AutonomosCloseRed extends LinearOpMode
                     encoderDrive(DRIVE_SPEED,27,27,27,27);                      // D5
                     encoderDrive(DRIVE_SPEED,13,-13,13,-13);                    // E5
                     encoderArm(ARM_SPEED,100,100);                                                             // ARM UP
-                    encoderDrive(DRIVE_SPEED,10,10,10,10);                      // MAKE CONTACT WITH BOARD
+                    encoderDrive(0.3,13,13,13,13);                       // MAKE CONTACT WITH BOARD
                     OpenClaw();                                                                                                      // OPEN CLAW
                     CloseClaw();                                                                                                     // CLOSE CLAW
                     encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);                      // BACK AWAY FROM BACKDROP
@@ -205,9 +205,9 @@ public class AutonomosCloseRed extends LinearOpMode
 
                     encoderDrive(DRIVE_SPEED, 17.75, -17.75, -17.75,17.75);     // TURN 90
                     encoderDrive(DRIVE_SPEED,33,33,33,33);                      // E5 - E6
-                    encoderDrive(DRIVE_SPEED,-2.75,2.75,-2.75,2.75);                        // MINOR ADJUSTMENTS
+                    encoderDrive(DRIVE_SPEED,-1,1,-1,1);                        // MINOR ADJUSTMENTS
                     encoderArm(ARM_SPEED,100,100);                                                             // ARM UP
-                    encoderDrive(DRIVE_SPEED,3,3,3,3);                          // MAKE CONTACT WITH BOARD
+                    encoderDrive(0.3,6,6,6,6);                          // MAKE CONTACT WITH BOARD
                     OpenClaw();                                                                                                      // OPEN CLAW
                     CloseClaw();                                                                                                     // CLOSE CLAW
                     encoderDrive(DRIVE_SPEED,-3,-3,-3,-3);                      // BACK AWAY FROM BACKDROP
